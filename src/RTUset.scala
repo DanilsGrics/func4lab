@@ -54,18 +54,23 @@ object RTUSet extends App {
     iter(-bound)
   }
 
+  def exists(s: Set, p: Int => Boolean): Boolean = {
+    def iter(a: Int): Boolean = {
+      if (a > bound) false
+      else if (s(a) && p(a)) true
+      else iter(a + 1)
+    }
+    iter(-bound)
+  }
 
-  def exists(s: Set, p: Int => Boolean): Boolean = ???
-
-
-  def map(s: Set, f: Int => Int): Set = (x: Int) => ???
+  def map(s: Set, f: Int => Int): Set = (x: Int) => exists(s, (y: Int) => f(y) == x)
 
   /**
     * Displays the contents of a set
     */
   def toString(s: Set): String = {
-    ???
-
+    val output = for(i <- -bound to bound if contains(s, i)) yield i
+    output.mkString("{", ",", "}")
   }
 
   (new SimpleSuite).execute()
